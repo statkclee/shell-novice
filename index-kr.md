@@ -37,9 +37,9 @@ title: 유닉스 쉘(Unix Shell)
 |1.  [쉘(shell) 소개](00-intro-kr.html)                         |1.  [Introducing the Shell](00-intro.html)   |
 |2.  [파일과 디렉토리](01-filedir-kr.html)                      |2.  [Files and Directories](01-filedir.html)  |
 |3.  [파일과 디렉토리 생성](02-create-kr.html)              |3.  [Creating Things](02-create.html)        |
-|4.  [파이프(pipe)와 필터(filter)](03-pipefilter-kr.html)   |4.  [Pipes and Filters](03-pipefilter.html)   |
-|5.  [루프(Loops)](04-loop-kr.html)                           |5.  [Loops](04-loop.html)                         |
-|6.  [쉘 스크립트(shell script)](05-script-kr.html)         |6.  [Shell Scripts](05-script.html)              |
+|4.  [파이프와 필터](03-pipefilter-kr.html)   |4.  [Pipes and Filters](03-pipefilter.html)   |
+|5.  [루프](04-loop-kr.html)                           |5.  [Loops](04-loop.html)                         |
+|6.  [쉘 스크립트](05-script-kr.html)         |6.  [Shell Scripts](05-script.html)              |
 |7.  [파일, 문자, 디렉토리  등 찾기](06-find-kr.html)        |7.  [Finding Things](06-find.html)              |
 
       
