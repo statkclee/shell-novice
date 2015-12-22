@@ -3,83 +3,112 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
-    <title>Software Carpentry: The Unix Shell</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
-    <link rel="stylesheet" type="text/css" href="css/swc.css" />
-    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
-    <meta charset="UTF-8" />
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <title>Software Carpentry: 유닉스 쉘(Unix Shell)</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body class="lesson">
     <div class="container card">
-      <div class="banner">
-        <a href="http://software-carpentry.org" title="Software Carpentry">
-          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
-        </a>
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
       </div>
       <article>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
-                    <h1 class="title">The Unix Shell</h1>
-          <p>The Unix shell has been around longer than most of its users have been alive. It has survived so long because it’s a power tool that allows people to do complex things with just a few keystrokes. More importantly, it helps them combine existing programs in new ways and automate repetitive tasks so that they don’t have to type the same things over and over again. Use of the shell is fundamental to using a wide range of other powerful tools and computing resources (including “high-performance computing” supercomputers). These lessons will start you on a path towards using these resources effectively.</p>
+                    <h1 class="title">유닉스 쉘(Unix Shell)</h1>
+          <p>유닉스 쉘(Unix Shell)은 대부분의 컴퓨터 사용자가 살아온 것보다 오래 동안 존재했다. 오래동안 생존한 이유는 사용자로 하여금 단지 키보드 몇번 쳐서 복잡한 작업을 수행할 수 있게 하는 강력한 도구이기 때문이다. 좀더 중요하게는 기존의 프로그램을 새로운 방식으로 조합해서 반복적인 작업을 자동화함으로써, 동일한 작업을 반복적으로 하지 않게 만든다. 쉘 사용은 폭넓게 다양하고 강력한 도구와 컴퓨팅 자원(슈퍼컴퓨터와 “고성능 컴퓨팅(High Performance Computing, HPC)”이 포함)을 사용하는 근본이 된다.<br />이번 학습은 효과적으로 이런 자원을 사용하는 과정으로 시작한다.</p>
 <section class="prereq panel panel-warning">
 <div class="panel-heading">
-<h2 id="prerequisites"><span class="glyphicon glyphicon-education"></span>Prerequisites</h2>
+<h2><span class="glyphicon glyphicon-education"></span>전제조건</h2>
 </div>
 <div class="panel-body">
-<p>This lesson guides you through the basics of file systems and the shell. If you have stored files on a computer at all and recognize the word “file” and either “directory” or “folder” (two common words for the same thing), you’re ready for this lesson.</p>
-<p>If you’re already comfortable manipulating files and directories, searching for files with <code>grep</code> and <code>find</code>, and writing simple loops and scripts, you probably won’t learn much from this lesson.</p>
+<p>이번 학습에서 파일 시스템과 쉘 기초를 안내한다. 만약 컴퓨터에 파일을 저장한 적이 있고, “파일(file)”과 “디렉토리(directory)” 혹은 “폴더(folder)”라는 단어을 인지했다면, 이번 학습에 준비가 되었다.</p>
+<p>만약 파일과 디렉토리를 조작하고, <code>grep</code> 과 <code>find</code> 명령어로 파일을 검색하고, 간단한 루프와 스크립트를 작성하는데 이미 편안하다면, 아마도 이번 학습에서 그다지 배울 것은 없다.</p>
 </div>
 </section>
 <section class="getready panel panel-warning">
 <div class="panel-heading">
-<h2 id="getting-ready"><span class="glyphicon glyphicon-check"></span>Getting ready</h2>
+<h2><span class="glyphicon glyphicon-check"></span>사전 준비</h2>
 </div>
 <div class="panel-body">
-<p>You need to download some files to follow this lesson:</p>
+<p>수업을 따라하는데 필요한 파일을 다운로드한다:</p>
 <ol style="list-style-type: decimal">
-<li>Make a new folder in your Desktop called <code>shell-novice</code>.</li>
-<li>Download <a href="./shell-novice-data.zip">shell-novice-data.zip</a> and move the file to this folder.</li>
-<li>If it’s not unzipped yet, double-click on it to unzip it. You should end up with a new folder called <code>data</code>.</li>
-<li>You can access this folder from the Unix shell with:</li>
+<li>바탕화면에 <code>shell-novice</code> 이름으로 새로운 폴더를 생성한다.</li>
+<li><a href="./shell-novice-data.zip">shell-novice-data.zip</a>을 다운로드하고, 파일을 1번 폴더 안으로 옮긴다.</li>
+<li>만약 아직 압축을 풀지 않았다면, 두번 클릭해서 압축을 푼다. 최종 결과작업은 <code>data</code> 폴더가 새로 생겨야 된다.</li>
+<li>다음 명령어로 유닉스 쉘에서 상기 폴더로 접근할 수 있다:</li>
 </ol>
 <pre class="input"><code>$ cd &amp;&amp; cd Desktop/shell-novice/data</code></pre>
 </div>
 </section>
-<h2 id="topics">Topics</h2>
-<ol style="list-style-type: decimal">
-<li><a href="00-intro.html">Introducing the Shell</a></li>
-<li><a href="01-filedir.html">Files and Directories</a></li>
-<li><a href="02-create.html">Creating Things</a></li>
-<li><a href="03-pipefilter.html">Pipes and Filters</a></li>
-<li><a href="04-loop.html">Loops</a></li>
-<li><a href="05-script.html">Shell Scripts</a></li>
-<li><a href="06-find.html">Finding Things</a></li>
-</ol>
-<h2 id="other-resources">Other Resources</h2>
+<h2 id="학습주제">학습주제</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">한국어(Korean)</th>
+<th align="left">영어(English)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1. <a href="00-intro-kr.html">쉘(shell) 소개</a></td>
+<td align="left">1. <a href="00-intro.html">Introducing the Shell</a></td>
+</tr>
+<tr class="even">
+<td align="left">2. <a href="01-filedir-kr.html">파일과 디렉토리</a></td>
+<td align="left">2. <a href="01-filedir.html">Files and Directories</a></td>
+</tr>
+<tr class="odd">
+<td align="left">3. <a href="02-create-kr.html">파일과 디렉토리 생성</a></td>
+<td align="left">3. <a href="02-create.html">Creating Things</a></td>
+</tr>
+<tr class="even">
+<td align="left">4. <a href="03-pipefilter-kr.html">파이프(pipe)와 필터(filter)</a></td>
+<td align="left">4. <a href="03-pipefilter.html">Pipes and Filters</a></td>
+</tr>
+<tr class="odd">
+<td align="left">5. <a href="04-loop-kr.html">루프(Loops)</a></td>
+<td align="left">5. <a href="04-loop.html">Loops</a></td>
+</tr>
+<tr class="even">
+<td align="left">6. <a href="05-script-kr.html">쉘 스크립트(shell script)</a></td>
+<td align="left">6. <a href="05-script.html">Shell Scripts</a></td>
+</tr>
+<tr class="odd">
+<td align="left">7. <a href="06-find-kr.html">파일, 문자, 디렉토리 등 찾기</a></td>
+<td align="left">7. <a href="06-find.html">Finding Things</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="추가-학습교재">추가 학습교재</h2>
 <ul>
-<li><a href="reference.html">Reference</a></li>
-<li><a href="discussion.html">Discussion</a></li>
-<li><a href="instructors.html">Instructor’s Guide</a></li>
+<li><a href="reference.html">참고문헌</a></li>
+<li><a href="discussion.html">토론</a></li>
+<li><a href="instructors.html">강사 안내서</a></li>
 </ul>
         </div>
       </div>
       </article>
-      <div class="footer">
-        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
-        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/shell-novice">Source</a>
-        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
-        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/shell-novice">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
       </div>
     </div>
-    <!-- Javascript placed at the end of the document so the pages load faster -->
-    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
     <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
   </body>
 </html>
