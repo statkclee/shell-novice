@@ -62,17 +62,15 @@ UPDATED: 1738-11-24
 
 마지막으로 실제 실행되는 명령어는 오랜 친구인 `head`가 되어서, 루프는 교대로 각 데이터 파일의 첫 3줄을 출력한다.
 
-> ## Follow the Prompt {.callout}
+> ## 프롬프트 따라가기 {.callout}
 >
-> The shell prompt changes from `$` to `>` and back again as we were
-> typing in our loop. The second prompt, `>`, is different to remind
-> us that we haven't finished typing a complete command yet. A semicolon, `;`, 
-> can be used to separate two commands written on a single line.
+> 루프안에서 타이핑을 할 때, 쉘 프롬프트가 `$`에서 `>`으로 바뀐다. 
+> 두번째 프롬프트는, `>`, 온전한 명령문 타이핑이 끝마치지 않았음을 상기시키려고 다르다.
+> 세미콜론 `;` 을 사용해서 단일 명령줄에 작성된 두 명령을 구별한다.
 
-We have called the variable in this loop `filename`
-in order to make its purpose clearer to human readers.
-The shell itself doesn't care what the variable is called;
-if we wrote this loop as:
+목적을 좀더 사람 독자에게 명확히 하기 위해서 루프의 변수를 `filename`로 했다. 
+쉘 자체는 변수가 어떻게 작명되든지 문제삼지 않는다. 만약 루프를 다음과 같이 작성하거나:
+
 
 ~~~ {.bash}
 for x in basilisk.dat unicorn.dat
@@ -81,7 +79,7 @@ do
 done
 ~~~
 
-or:
+혹은:
 
 ~~~ {.bash}
 for temperature in basilisk.dat unicorn.dat
@@ -90,13 +88,10 @@ do
 done
 ~~~
 
-it would work exactly the same way.
-*Don't do this.*
-Programs are only useful if people can understand them,
-so meaningless names (like `x`) or misleading names (like `temperature`)
-increase the odds that the program won't do what its readers think it does.
+둘다 정확하게 동일하게 동작한다. 
+*이렇게는 절대 하지 마세요*. 사람이 프로그램을 이해할 수 있을 때만 프로그램이 유용하기 때문에, (`x`같은) 의미없는 이름이나, (`temperature`같은) 오해를 줄 수 있는 이름은 오해를 줘서 독자가 생각하기에 프로그램이 수행해야 할 것을 프로그램이 수행하지 못할 가능성을 높인다.
 
-Here's a slightly more complicated loop:
+다음에 좀더 복잡한 루프가 있다:
 
 ~~~ {.bash}
 for filename in *.dat
@@ -106,26 +101,22 @@ do
 done
 ~~~
 
-The shell starts by expanding `*.dat` to create the list of files it will process.
-The **loop body**
-then executes two commands for each of those files.
-The first, `echo`, just prints its command-line parameters to standard output.
-For example:
+쉘이 `*.dat`을 전개해서 쉘이 처리할 파일 리스트를 생성한다. 그리고 나서 **루프 몸통(loop body)** 부분이 파일 각각에 대해 명령어 두개를 실행한다. 
+첫 명령어 `echo`는 명령 라인 매개변수를 표준 출력으로 화면에 뿌려준다. 
+예를 들어:
 
 ~~~ {.bash}
 $ echo hello there
 ~~~
 
-prints:
+다음을 화면에 출력한다:
 
 ~~~ {.output}
 hello there
 ~~~
 
-In this case,
-since the shell expands `$filename` to be the name of a file,
-`echo $filename` just prints the name of the file.
-Note that we can't write this as:
+이 사례에서, 쉘이 파일 이름으로 `$filename`을 전개했기 때문에, 
+`echo $filename`은 단지 파일 이름만 화면에 출력한다. 다음과 같이 작성할 수 없다는 것에 주의한다:
 
 ~~~ {.bash}
 for filename in *.dat
@@ -135,15 +126,13 @@ do
 done
 ~~~
 
-because then the first time through the loop,
-when `$filename` expanded to `basilisk.dat`, the shell would try to run `basilisk.dat` as a program.
-Finally,
-the `head` and `tail` combination selects lines 81-100 from whatever file is being processed.
+왜냐하면, `$filename`이 `basilisk.dat`으로 전개될 때 루프 처음에 쉘이 프로그램으로 인식한 `basilisk.dat`를 실행하려고 하기 때문이다. 
+마지막으로, `head`와 `tail` 조합은 어떤 파일이 처리되든 81-100줄만 선택해서 화면에 뿌려준다.
 
-> ## Spaces in Names {.callout}
+> ## 파일, 디렉토리, 변수 등 이름에 공백 {.callout}
 > 
-> Filename expansion in loops is another reason you should not use spaces in filenames.
-> Suppose our data files are named:
+> 루프 파일 이름 전개가 파일명에 공백을 사용하지 말아야 되는 또다른 이유가 된다. 
+> 데이터 파일이 다음과 같은 이름으로 되었다고 가정하자:
 > 
 > ~~~
 > basilisk.dat
@@ -151,7 +140,7 @@ the `head` and `tail` combination selects lines 81-100 from whatever file is bei
 > unicorn.dat
 > ~~~
 > 
-> If we try to process them using:
+> 다음을 사용하여 파일을 처리하려고 한다면:
 > 
 > ~~~
 > for filename in *.dat
@@ -160,15 +149,13 @@ the `head` and `tail` combination selects lines 81-100 from whatever file is bei
 > done
 > ~~~
 > 
-> then the shell will expand `*.dat` to create:
+> 그러면, 쉘은 `*.dat`을 전개해서 다음을 생성한다:
 > 
 > ~~~
 > basilisk.dat red dragon.dat unicorn.dat
 > ~~~
 > 
-> With older versions of Bash,
-> or most other shells,
-> `filename` will then be assigned the following values in turn:
+> 좀 오래된 배쉬(Bash) 혹은 대부분의 쉘과 마찬가지로, `filename`에 순차적으로 다음 값으로 할당될 것이다:
 > 
 > ~~~
 > basilisk.dat
@@ -177,12 +164,10 @@ the `head` and `tail` combination selects lines 81-100 from whatever file is bei
 > unicorn.dat
 > ~~~
 >
-> That's a problem: `head` can't read files called `red` and `dragon.dat`
-> because they don't exist,
-> and won't be asked to read the file `red dragon.dat`.
-> 
-> We can make our script a little bit more robust
-> by **quoting** our use of the variable:
+> 이것이 문제가 된다. 
+> `head`는 `red`와 `dragon.dat` 파일을 읽을 수가 없다.
+> 왜냐하면 파일이 존재하지 않고 `red dragon.dat` 파일을 읽어올 수도 없다.
+> 변수 사용에 **인용부호(quoting)** 처리해서 약간 더 강건하게 스크립트를 작성할 수 있다:
 > 
 > ~~~
 > for filename in *.dat
@@ -191,10 +176,9 @@ the `head` and `tail` combination selects lines 81-100 from whatever file is bei
 > done
 > ~~~
 >
-> but it's simpler just to avoid using spaces (or other special characters) in filenames.
+> 하지만, 파일명에 공백 혹은 다른 특수 문자의 사용을 피하는 것이 훨씬 더 간단하다.
 
-Going back to our original file copying problem,
-we can solve it using this loop:
+원본 파일 이름을 바꾸는 문제로 다시 돌아가서, 다음 루프를 사용해서 문제를 해결할 수 있다:
 
 ~~~ {.bash}
 for filename in *.dat
@@ -203,27 +187,24 @@ do
 done
 ~~~
 
-This loop runs the `cp` command once for each filename.
-The first time,
-when `$filename` expands to `basilisk.dat`,
-the shell executes:
+상기 루프는 `cp` 명령문을 각 파일이름에 대해 실행한다.
+처음에 `$filename`이 `basilisk.dat`로 전개될 때, 쉘이 다음을 실행한다:
 
 ~~~ {.bash}
 cp basilisk.dat original-basilisk.dat
 ~~~
 
-The second time, the command is:
+두번째에는 명령문이 다음과 같다:
 
 ~~~ {.bash}
 cp unicorn.dat original-unicorn.dat
 ~~~
 
-> ## Measure Twice, Run Once {.callout}
+> ## 두번 두드려 측정하고, 한번 실행 {.callout}
 > 
-> A loop is a way to do many things at once --- or to make many mistakes at
-> once if it does the wrong thing. One way to check what a loop *would* do
-> is to echo the commands it would run instead of actually running them.
-> For example, we could write our file copying loop like this:
+> 루프는 많은 작업을 한번에 수행하는 방법이다 --- 혹은 만약 잘못된 작업을 수행한다면, 한번에 많은 실수를 저지르게 된다. 
+> 루프가 수행하는 작업을 *확인하는* 한 방법은 실제로 작업을 실행하는 대신, 실행할 명령어를 `echo`를 사용하여 메아리 치는 것이다. 
+> 예를 들어, 다음과 같이 파일 이름을 복사하는 루프를 작성할 수 있다:
 > 
 > ~~~
 > for filename in *.dat
@@ -232,26 +213,21 @@ cp unicorn.dat original-unicorn.dat
 > done
 > ~~~
 > 
-> Instead of running `cp`, this loop runs `echo`, which prints out:
+> `cp`를 실행하는 대신, 루프가 `echo`를 실행해서, 실제 명령어를 실행하지 *않고* 다음을 화면에 출력한다:
 > 
 > ~~~
 > cp basilisk.dat original-basilisk.dat
 > cp unicorn.dat original-unicorn.dat
 > ~~~
 > 
-> *without* actually running those commands. We can then use up-arrow to
-> redisplay the loop, back-arrow to get to the word `echo`, delete it, and
-> then press "enter" to run the loop with the actual `cp` commands. This
-> isn't foolproof, but it's a handy way to see what's going to happen when
-> you're still learning how loops work.
+> 그리고 나서, 위쪽 화살표를 사용해서 루프를 다시 화면에 출력하고, 뒤쪽 화살표를 사용해서 `echo` 단어에 도달해서 삭제하고 실제 `cp` 명령어로 루프를 실행하기 하도록 "엔터(enter)"키를 누른다. 
+> 이 방법은 실패없는 완벽한 것은 아니지만, 루프가 어떻게 동작하고 있는지 학습할 때, 무슨 일이 일어나고 있는지를 살펴볼 수 있는 간편한 방법이다.
 
-## Nelle's Pipeline: Processing Files
+## Nelle의 파이프라인: 파일 처리하기
 
-Nelle is now ready to process her data files.
-Since she's still learning how to use the shell,
-she decides to build up the required commands in stages.
-Her first step is to make sure that she can select the right files --- remember,
-these are ones whose names end in 'A' or 'B', rather than 'Z'. Starting from her home directory, Nelle types:
+Nelle은 이제 데이터 파일을 처리할 준비가 되었다. 
+아직 쉘을 어떻게 사용하는지 학습단계에 있기 때문에, 단계별로 요구되는 명령어를 차근히 작성하기로 마음먹었다.
+첫번째 단계는 적합한 파일을 선택했는지를 확인하는 것이다 --- 'Z'가 아닌 'A' 혹은 'B'로 파일이름이 끝나는 것이 적합한 파일이라는 것을 명심한다. 홈 디렉토리에서 시작해서, Nelle이 다음과 같이 타이핑한다:
 
 ~~~ {.bash}
 $ cd north-pacific-gyre/2012-07-03
@@ -269,10 +245,8 @@ NENE02043A.txt
 NENE02043B.txt
 ~~~
 
-Her next step is to decide
-what to call the files that the `goostats` analysis program will create.
-Prefixing each input file's name with "stats" seems simple,
-so she modifies her loop to do that:
+다음 단계는 `goostats` 분석 프로그램이 생성할 파일이름을 무엇으로 할지 결정하는 것이다. 
+"stat"을 각 입력 파일에 접두어로 붙이는 것이 간단해 보여서, 루프를 변경해서 작업을 수행하도록 한다:
 
 ~~~ {.bash}
 $ for datafile in *[AB].txt
