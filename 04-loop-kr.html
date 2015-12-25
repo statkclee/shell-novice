@@ -4,24 +4,24 @@
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
     <title>Software Carpentry: 유닉스 쉘(Unix Shell)</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
-    <link rel="stylesheet" type="text/css" href="css/swc.css" />
-    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
-    <meta charset="UTF-8" />
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body class="lesson">
     <div class="container card">
-      <div class="banner">
-        <a href="http://software-carpentry.org" title="Software Carpentry">
-          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
-        </a>
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
       </div>
       <article>
       <div class="row">
@@ -30,7 +30,7 @@
           <h2 class="subtitle">루프</h2>
           <section class="objectives panel panel-warning">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
 </div>
 <div class="panel-body">
 <ul>
@@ -44,17 +44,17 @@
 </div>
 </section>
 <p>반복적으로 명령어를 실행하게 함으로써 자동화를 통해서 <strong>루프</strong>는 생산성 향상에 핵심이 된다. 와일드 카드와 탭 자동완성과 유사하게, 루프를 사용하면 타이핑 상당량(타이핑 실수)을 줄일 수 있다. 와일드카드와 탭 자동완성은 타이핑을 (타이핑 실수를) 줄이는 두가지 방법이다. 또다른 것은 쉘이 반복해서 특정 작업을 수행하게 하는 것이다. <code>basilisk.dat</code>, <code>unicorn.dat</code> 등으로 이름 붙여진 게놈 데이터 파일이 수백개 있다고 가정하자. 이번 예제에서, 단지 두개 예제 파일만 있는 <code>creatures</code> 디렉토리를 사용할 것이지만 동일한 원칙은 훨씬 더 많은 파일에 즉시 적용될 수 있다. 디렉토리에 있는 파일을 변경하고 싶지만, 원본 파일을 <code>original-basilisk.dat</code>과 <code>original-unicorn.dat</code>으로 이름을 변경해서 저장한다. 하지만 다음 명령어를 사용할 수 없다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cp</span> *.dat original-*.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cp</span> *.dat original-*.dat</code></pre></div>
 <p>왜냐하면 상기 두 파일 경우에 전개가 다음과 같이 될 것이기 때문이다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cp</span> basilisk.dat unicorn.dat original-*.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cp</span> basilisk.dat unicorn.dat original-*.dat</code></pre></div>
 <p>오류가 대신에, 파일을 백업하지 않는다:</p>
 <pre class="error"><code>cp: target `original-*.dat&#39; is not a directory</code></pre>
 <p><code>cp</code> 명령어가 입력값 두개 이상을 받을 때 이런 문제가 발생한다. 이런 상황이 발생할 때, 마지막 입력값을 디렉토리로 예상해서 모든 파일을 해당 디렉토리로 넘긴다. <code>creatures</code> 디렉토리에는 <code>original-*.dat</code> 라고 이름 붙은 하위 디렉토리가 없기 때문에, 오류가 생긴다.</p>
 <p>대신에, 리스트에서 한번에 연산작업을 하나씩 수행하는 <strong>루프(loop)</strong>를 사용할 수 있다. 교대로 각 파일에 대해 첫 3줄을 화면에 출력하는 단순한 예제가 다음에 나와 있다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">filename</span> in basilisk.dat unicorn.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">filename</span> in basilisk.dat unicorn.dat
 <span class="kw">&gt;</span> <span class="kw">do</span>
 <span class="kw">&gt;</span>    <span class="kw">head</span> -3 <span class="ot">$filename</span>
-<span class="kw">&gt;</span> <span class="kw">done</span></code></pre>
+<span class="kw">&gt;</span> <span class="kw">done</span></code></pre></div>
 <pre class="output"><code>COMMON NAME: basilisk
 CLASSIFICATION: basiliscus vulgaris
 UPDATED: 1745-05-02
@@ -66,43 +66,43 @@ UPDATED: 1738-11-24</code></pre>
 <p>마지막으로 실제 실행되는 명령어는 오랜 친구인 <code>head</code>가 되어서, 루프는 교대로 각 데이터 파일의 첫 3줄을 출력한다.</p>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>프롬프트 따라가기</h2>
+<h2 id="프롬프트-따라가기"><span class="glyphicon glyphicon-pushpin"></span>프롬프트 따라가기</h2>
 </div>
 <div class="panel-body">
 <p>루프안에서 타이핑을 할 때, 쉘 프롬프트가 <code>$</code>에서 <code>&gt;</code>으로 바뀐다. 두번째 프롬프트는, <code>&gt;</code>, 온전한 명령문 타이핑이 끝마치지 않았음을 상기시키려고 다르다. 세미콜론 <code>;</code> 을 사용해서 단일 명령줄에 작성된 두 명령을 구별한다.</p>
 </div>
 </aside>
 <p>목적을 좀더 사람 독자에게 명확히 하기 위해서 루프의 변수를 <code>filename</code>로 했다. 쉘 자체는 변수가 어떻게 작명되든지 문제삼지 않는다. 만약 루프를 다음과 같이 작성하거나:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">x</span> in basilisk.dat unicorn.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">x</span> in basilisk.dat unicorn.dat
 <span class="kw">do</span>
     <span class="kw">head</span> -3 <span class="ot">$x</span>
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 <p>혹은:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">temperature</span> in basilisk.dat unicorn.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">temperature</span> in basilisk.dat unicorn.dat
 <span class="kw">do</span>
     <span class="kw">head</span> -3 <span class="ot">$temperature</span>
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 <p>둘다 정확하게 동일하게 동작한다. <em>이렇게는 절대 하지 마세요</em>. 사람이 프로그램을 이해할 수 있을 때만 프로그램이 유용하기 때문에, (<code>x</code>같은) 의미없는 이름이나, (<code>temperature</code>같은) 오해를 줄 수 있는 이름은 오해를 줘서 독자가 생각하기에 프로그램이 수행해야 할 것을 프로그램이 수행하지 못할 가능성을 높인다.</p>
 <p>다음에 좀더 복잡한 루프가 있다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
 <span class="kw">do</span>
     <span class="kw">echo</span> <span class="ot">$filename</span>
     <span class="kw">head</span> -100 <span class="ot">$filename</span> <span class="kw">|</span> <span class="kw">tail</span> -20
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 <p>쉘이 <code>*.dat</code>을 전개해서 쉘이 처리할 파일 리스트를 생성한다. 그리고 나서 <strong>루프 몸통(loop body)</strong> 부분이 파일 각각에 대해 명령어 두개를 실행한다. 첫 명령어 <code>echo</code>는 명령 라인 매개변수를 표준 출력으로 화면에 뿌려준다. 예를 들어:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">echo</span> hello there</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">echo</span> hello there</code></pre></div>
 <p>다음을 화면에 출력한다:</p>
 <pre class="output"><code>hello there</code></pre>
 <p>이 사례에서, 쉘이 파일 이름으로 <code>$filename</code>을 전개했기 때문에, <code>echo $filename</code>은 단지 파일 이름만 화면에 출력한다. 다음과 같이 작성할 수 없다는 것에 주의한다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
 <span class="kw">do</span>
     <span class="ot">$filename</span>
     <span class="kw">head</span> -100 <span class="ot">$filename</span> <span class="kw">|</span> <span class="kw">tail</span> -20
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 <p>왜냐하면, <code>$filename</code>이 <code>basilisk.dat</code>으로 전개될 때 루프 처음에 쉘이 프로그램으로 인식한 <code>basilisk.dat</code>를 실행하려고 하기 때문이다. 마지막으로, <code>head</code>와 <code>tail</code> 조합은 어떤 파일이 처리되든 81-100줄만 선택해서 화면에 뿌려준다.</p>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>파일, 디렉토리, 변수 등 이름에 공백</h2>
+<h2 id="파일-디렉토리-변수-등-이름에-공백"><span class="glyphicon glyphicon-pushpin"></span>파일, 디렉토리, 변수 등 이름에 공백</h2>
 </div>
 <div class="panel-body">
 <p>루프 파일 이름 전개가 파일명에 공백을 사용하지 말아야 되는 또다른 이유가 된다. 데이터 파일이 다음과 같은 이름으로 되었다고 가정하자:</p>
@@ -130,17 +130,17 @@ done</code></pre>
 </div>
 </aside>
 <p>원본 파일 이름을 바꾸는 문제로 다시 돌아가서, 다음 루프를 사용해서 문제를 해결할 수 있다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">filename</span> in *.dat
 <span class="kw">do</span>
     <span class="kw">cp</span> <span class="ot">$filename</span> original-<span class="ot">$filename</span>
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 <p>상기 루프는 <code>cp</code> 명령문을 각 파일이름에 대해 실행한다. 처음에 <code>$filename</code>이 <code>basilisk.dat</code>로 전개될 때, 쉘이 다음을 실행한다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> basilisk.dat original-basilisk.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> basilisk.dat original-basilisk.dat</code></pre></div>
 <p>두번째에는 명령문이 다음과 같다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> unicorn.dat original-unicorn.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> unicorn.dat original-unicorn.dat</code></pre></div>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>두번 두드려 측정하고, 한번 실행</h2>
+<h2 id="두번-두드려-측정하고-한번-실행"><span class="glyphicon glyphicon-pushpin"></span>두번 두드려 측정하고, 한번 실행</h2>
 </div>
 <div class="panel-body">
 <p>루프는 많은 작업을 한번에 수행하는 방법이다 — 혹은 만약 잘못된 작업을 수행한다면, 한번에 많은 실수를 저지르게 된다. 루프가 수행하는 작업을 <em>확인하는</em> 한 방법은 실제로 작업을 실행하는 대신, 실행할 명령어를 <code>echo</code>를 사용하여 메아리 치는 것이다. 예를 들어, 다음과 같이 파일 이름을 복사하는 루프를 작성할 수 있다:</p>
@@ -156,11 +156,11 @@ cp unicorn.dat original-unicorn.dat</code></pre>
 </aside>
 <h2 id="nelle의-파이프라인-파일-처리하기">Nelle의 파이프라인: 파일 처리하기</h2>
 <p>Nelle은 이제 데이터 파일을 처리할 준비가 되었다. 아직 쉘을 어떻게 사용하는지 학습단계에 있기 때문에, 단계별로 요구되는 명령어를 차근히 작성하기로 마음먹었다. 첫번째 단계는 적합한 파일을 선택했는지를 확인하는 것이다 — ‘Z’가 아닌 ’A’ 혹은 ’B’로 파일이름이 끝나는 것이 적합한 파일이라는 것을 명심한다. 홈 디렉토리에서 시작해서, Nelle이 다음과 같이 타이핑한다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> north-pacific-gyre/2012-07-03
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> north-pacific-gyre/2012-07-03
 $ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt
 <span class="kw">&gt;</span> <span class="kw">do</span>
 <span class="kw">&gt;</span>     <span class="kw">echo</span> <span class="ot">$datafile</span>
-<span class="kw">&gt;</span> <span class="kw">done</span></code></pre>
+<span class="kw">&gt;</span> <span class="kw">done</span></code></pre></div>
 <pre class="output"><code>NENE01729A.txt
 NENE01729B.txt
 NENE01736A.txt
@@ -168,145 +168,145 @@ NENE01736A.txt
 NENE02043A.txt
 NENE02043B.txt</code></pre>
 <p>다음 단계는 <code>goostats</code> 분석 프로그램이 생성할 파일이름을 무엇으로 할지 결정하는 것이다. “stat”을 각 입력 파일에 접두어로 붙이는 것이 간단해 보여서, 루프를 변경해서 작업을 수행하도록 한다:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt
 <span class="kw">&gt;</span> <span class="kw">do</span>
 <span class="kw">&gt;</span>     <span class="kw">echo</span> <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span>
-<span class="kw">&gt;</span> <span class="kw">done</span></code></pre>
+<span class="kw">&gt;</span> <span class="kw">done</span></code></pre></div>
 <pre class="output"><code>NENE01729A.txt stats-NENE01729A.txt
 NENE01729B.txt stats-NENE01729B.txt
 NENE01736A.txt stats-NENE01736A.txt
 ...
 NENE02043A.txt stats-NENE02043A.txt
 NENE02043B.txt stats-NENE02043B.txt</code></pre>
-<p>She hasn’t actually run <code>goostats</code> yet, but now she’s sure she can select the right files and generate the right output filenames.</p>
-<p>Typing in commands over and over again is becoming tedious, though, and Nelle is worried about making mistakes, so instead of re-entering her loop, she presses the up arrow. In response, the shell redisplays the whole loop on one line (using semi-colons to separate the pieces):</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">echo</span> <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre>
-<p>Using the left arrow key, Nelle backs up and changes the command <code>echo</code> to <code>goostats</code>:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">bash</span> goostats <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre>
-<p>When she presses enter, the shell runs the modified command. However, nothing appears to happen — there is no output. After a moment, Nelle realizes that since her script doesn’t print anything to the screen any longer, she has no idea whether it is running, much less how quickly. She kills the job by typing Control-C, uses up-arrow to repeat the command, and edits it to read:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">echo</span> <span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">bash</span> goostats <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre>
+<p><code>goostats</code>을 아직 실행하지는 않았지만, 이제 확신할 수 있는 것은 올바른 파일을 선택해서, 올바른 출력 파일이름을 생성할 수 있다는 것이다.</p>
+<p>명령어를 반복적으로 타이핑하는 것은 귀찮은 일이지만, 더 걱정이 되는 것은 Nelle이 타이핑 실수를 하는 것이다. 그래서 루프를 다시 입력하는 대신에 위쪽 화살표를 누른다. 위쪽 화살표에 반응해서 컴퓨터 쉘은 한줄에 전체 루프를 다시 보여준다. (스크립트 각 부분이 구분되는데 세미콜론이 사용됨):</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">echo</span> <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre></div>
+<p>왼쪽 화살표 키를 사용해서, Nelle은 <code>echo</code>명령어를 <code>goostats</code>으로 변경하고 백업한다:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">bash</span> goostats <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre></div>
+<p>엔터키를 누를 때, 쉘은 수정된 명령어를 실행한다. 하지만, 어떤 것도 일어나지 않는 것처럼 보인다 — 출력이 아무것도 없다. 잠시뒤에 Nelle은 작성한 스크립트가 화면에 아무것도 출력하지 않아서, 실행되고 있는지, 얼마나 빨리 실행되는지에 대한 정보가 없다는 것을 깨닫는다. 컨트롤+C(Control-C)를 눌러서 작업을 종료하고, 반복할 명령문을 위쪽 화살표로 선택하고, 편집해서 다음과 같이 작성한다:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">for</span> <span class="kw">datafile</span> in *[AB].txt<span class="kw">;</span> <span class="kw">do</span> <span class="kw">echo</span> <span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">bash</span> goostats <span class="ot">$datafile</span> stats-<span class="ot">$datafile</span><span class="kw">;</span> <span class="kw">done</span></code></pre></div>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Beginning and End</h2>
+<h2 id="시작과-끝"><span class="glyphicon glyphicon-pushpin"></span>시작과 끝</h2>
 </div>
 <div class="panel-body">
-<p>We can move to the beginning of a line in the shell by typing <code>^A</code> (which means Control-A) and to the end using <code>^E</code>.</p>
+<p>쉘에 ^A, 콘트롤+A(Control-A)를 타이핑해서 해당 라인 처음으로 가고, ^E를 쳐서 라인의 끝으로 이동한다.</p>
 </div>
 </aside>
-<p>When she runs her program now, it produces one line of output every five seconds or so:</p>
+<p>이번에 프로그램을 실행하면, 매 5초간격으로 한줄을 출력한다:</p>
 <pre class="output"><code>NENE01729A.txt
 NENE01729B.txt
 NENE01736A.txt
 ...</code></pre>
-<p>1518 times 5 seconds, divided by 60, tells her that her script will take about two hours to run. As a final check, she opens another terminal window, goes into <code>north-pacific-gyre/2012-07-03</code>, and uses <code>cat stats-NENE01729B.txt</code> to examine one of the output files. It looks good, so she decides to get some coffee and catch up on her reading.</p>
+<p>1518 곱하기 5초를 60으로 나누면, 작성한 스크립트를 실행하는데 약 2시간 정도 소요된다고 볼 수 있다. 마지막 점검으로, 또다른 터미널 윈도우를 열어서, <code>north-pacific-gyre/2012-07-03</code> 디렉토리로 가서, <code>cat stats-NENE01729B.txt</code>을 사용해서 출력파일 중 하나를 면밀히 조사한다. 출력결과가 좋아보인다. 그래서 커피를 마시고 좀더 논문을 읽기로 한다.</p>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Those Who Know History Can Choose to Repeat It</h2>
+<h2 id="역사를-아는-사람은-반복할-수-있다."><span class="glyphicon glyphicon-pushpin"></span>역사를 아는 사람은 반복할 수 있다.</h2>
 </div>
 <div class="panel-body">
-<p>Another way to repeat previous work is to use the <code>history</code> command to get a list of the last few hundred commands that have been executed, and then to use <code>!123</code> (where “123” is replaced by the command number) to repeat one of those commands. For example, if Nelle types this:</p>
+<p>앞선 작업을 반복하는 또다른 방법은 <code>history</code> 명령어를 사용하는 것이다. 실행된 마지막 수백개 명령어 리스트를 얻고 나서, 이들 명령어 중 하나를 반복실행하기 위해서 <code>!123</code>(“123”은 명령 숫자로 교체된다.)을 사용한다. 예를 들어 Nelle이 다음과 같이 타이핑한다:</p>
 <pre><code>$ history | tail -5
   456  ls -l NENE0*.txt
   457  rm stats-NENE01729B.txt.txt
   458  bash goostats NENE01729B.txt stats-NENE01729B.txt
   459  ls -l NENE0*.txt
   460  history</code></pre>
-<p>then she can re-run <code>goostats</code> on <code>NENE01729B.txt</code> simply by typing <code>!458</code>.</p>
+<p>그리고 나서, 단순히 <code>!458</code>을 타이핑함으로써, <code>NENE01729B.txt</code> 파일에 <code>goostats</code>을 다시 실행할 수 있다.</p>
 </div>
 </aside>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Variables in Loops</h2>
+<h2 id="루프에-있는-변수"><span class="glyphicon glyphicon-pencil"></span>루프에 있는 변수</h2>
 </div>
 <div class="panel-body">
-<p>Suppose that <code>ls</code> initially displays:</p>
+<p><code>ls</code> 명령어가 초기 다음과 같이 화면에 출력한다고 가정하자:</p>
 <pre><code>fructose.dat    glucose.dat   sucrose.dat</code></pre>
-<p>What is the output of:</p>
+<p>다음 스크립트의 출력결과는 무엇인가요:</p>
 <pre><code>for datafile in *.dat
 do
     ls *.dat
 done</code></pre>
-<p>Now, what is the output of:</p>
+<p>이제, 출력결과는 무엇인가:</p>
 <pre><code>for datafile in *.dat
 do
   ls $datafile
 done</code></pre>
-<p>Why do these two loops give you different outputs?</p>
+<p>왜 상기 루프 두개가 다른 결과값을 줄까요?</p>
 </div>
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Saving to a File in a Loop - Part One</h2>
+<h2 id="루프에서-파일에-저장하기---1부"><span class="glyphicon glyphicon-pencil"></span>루프에서 파일에 저장하기 - 1부</h2>
 </div>
 <div class="panel-body">
-<p>In the same directory, what is the effect of this loop?</p>
+<p>같은 디렉토리에서, 다음 루프의 효과는 무엇인가?</p>
 <pre><code>for sugar in *.dat
 do
     echo $sugar
     cat $sugar &gt; xylose.dat
 done</code></pre>
 <ol style="list-style-type: decimal">
-<li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and the text from <code>sucrose.dat</code> will be saved to a file called <code>xylose.dat</code>.</li>
-<li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and the text from all three files would be concatenated and saved to a file called <code>xylose.dat</code>.</li>
-<li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>, and <code>xylose.dat</code>, and the text from <code>sucrose.dat</code> will be saved to a file called <code>xylose.dat</code>.</li>
-<li>None of the above.</li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>을 출력하고, <code>sucrose.dat</code>에서 나온 텍스트를 <code>xylose.dat</code>에 저장된다.</li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>을 출력하고, 모든 파일 3개에서 나온 텍스트를 합쳐 <code>xylose.dat</code>에 저장된다.</li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>, <code>xylose.dat</code>을 출력하고, <code>sucrose.dat</code>에서 나온 텍스트를 <code>xylose.dat</code>에 저장된다.</li>
+<li>위 어느 것도 아니다.</li>
 </ol>
 </div>
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Saving to a File in a Loop - Part Two</h2>
+<h2 id="루프에서-파일에-저장하기---2부"><span class="glyphicon glyphicon-pencil"></span>루프에서 파일에 저장하기 - 2부</h2>
 </div>
 <div class="panel-body">
-<p>In another directory, where <code>ls</code> returns:</p>
+<p>또다른 디렉토리에서 <code>ls</code>를 타이핑하면 다음을 나타난다:</p>
 <pre><code>fructose.dat    glucose.dat   sucrose.dat   maltose.txt</code></pre>
-<p>What would be the output of the following loop?</p>
+<p>다음 루프 출력결과는 무엇일까?</p>
 <pre><code>for datafile in *.dat
 do
     cat $datafile &gt;&gt; sugar.dat
 done</code></pre>
 <ol style="list-style-type: decimal">
-<li>All of the text from <code>fructose.dat</code>, <code>glucose.dat</code> and <code>sucrose.dat</code> would be concatenated and saved to a file called <code>sugar.dat</code>.</li>
-<li>The text from <code>sucrose.dat</code> will be saved to a file called <code>sugar.dat</code>.</li>
-<li>All of the text from <code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code> and <code>maltose.txt</code> would be concatenated and saved to a file called <code>sugar.dat</code>.</li>
-<li>All of the text from <code>fructose.dat</code>, <code>glucose.dat</code> and <code>sucrose.dat</code> would be printed to the screen and saved to a file called <code>sugar.dat</code></li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>에서 모든 텍스트는 합쳐져서 <code>sugar.dat</code> 파일에 저장된다.</li>
+<li><code>sucrose.dat</code>에서 나온 텍스트는<code>sugar.dat</code> 파일에 저장된다.</li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>, <code>maltose.txt</code>에서 모든 텍스트는 합쳐져서 <code>sugar.dat</code> 파일에 저장된다.</li>
+<li><code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>에서 나온 모든 텍스트는 화면에 출력되고, <code>sugar.dat</code> 파일에 저장된다.</li>
 </ol>
 </div>
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Doing a Dry Run</h2>
+<h2 id="시운전dry-run"><span class="glyphicon glyphicon-pencil"></span>시운전(Dry Run)</h2>
 </div>
 <div class="panel-body">
-<p>Suppose we want to preview the commands the following loop will execute without actually running those commands:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">file</span> in *.dat
+<p>실제로 명령어를 실행하지 않고, 다음 루프가 실행할 명령어를 미리보고자 한다고 가정한다:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="kw">file</span> in *.dat
 <span class="kw">do</span>
   <span class="kw">analyze</span> <span class="ot">$file</span> <span class="kw">&gt;</span> analyzed-<span class="ot">$file</span>
-<span class="kw">done</span></code></pre>
-<p>What is the difference between the two loops below, and which one would we want to run?</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Version 1</span>
+<span class="kw">done</span></code></pre></div>
+<p>아래 두 루프 사이에 차이는 무엇이고, 어느 것을 시운전으로 실행하고 싶은가?</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># 버젼 1</span>
 <span class="kw">for</span> <span class="kw">file</span> in *.dat
 <span class="kw">do</span>
   <span class="kw">echo</span> analyze <span class="ot">$file</span> <span class="kw">&gt;</span> analyzed-<span class="ot">$file</span>
-<span class="kw">done</span></code></pre>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Version 2</span>
+<span class="kw">done</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># 버젼 2</span>
 <span class="kw">for</span> <span class="kw">file</span> in *.dat
 <span class="kw">do</span>
   <span class="kw">echo</span> <span class="st">&quot;analyze </span><span class="ot">$file</span><span class="st"> &gt; analyzed-</span><span class="ot">$file</span><span class="st">&quot;</span>
-<span class="kw">done</span></code></pre>
+<span class="kw">done</span></code></pre></div>
 </div>
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Nested Loops and Command-Line Expressions</h2>
+<h2 id="중첩루프와-명령-라인-표현식"><span class="glyphicon glyphicon-pencil"></span>중첩루프와 명령-라인 표현식</h2>
 </div>
 <div class="panel-body">
-<p>The <code>expr</code> does simple arithmetic using command-line parameters:</p>
+<p><code>expr</code> 명령어는 명령-라인 매개변수를 사용하여 간단한 연산작업을 한다:</p>
 <pre><code>$ expr 3 + 5
 8
 $ expr 30 / 5 - 2
 4</code></pre>
-<p>Given this, what is the output of:</p>
+<p>다음이 주어진 상태에서, 다음의 출력값은 무엇인가?</p>
 <pre><code>for left in 2 3
 do
     for right in $left
@@ -319,15 +319,15 @@ done</code></pre>
         </div>
       </div>
       </article>
-      <div class="footer">
-        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
-        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/shell-novice">Source</a>
-        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
-        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/shell-novice">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
       </div>
     </div>
-    <!-- Javascript placed at the end of the document so the pages load faster -->
-    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
     <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
   </body>
 </html>

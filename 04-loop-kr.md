@@ -263,50 +263,46 @@ NENE02043A.txt stats-NENE02043A.txt
 NENE02043B.txt stats-NENE02043B.txt
 ~~~
 
-She hasn't actually run `goostats` yet,
-but now she's sure she can select the right files and generate the right output filenames.
+`goostats`을 아직 실행하지는 않았지만, 
+이제 확신할 수 있는 것은 올바른 파일을 선택해서,
+올바른 출력 파일이름을 생성할 수 있다는 것이다.
 
-Typing in commands over and over again is becoming tedious,
-though,
-and Nelle is worried about making mistakes,
-so instead of re-entering her loop,
-she presses the up arrow.
-In response,
-the shell redisplays the whole loop on one line
-(using semi-colons to separate the pieces):
+명령어를 반복적으로 타이핑하는 것은 귀찮은 일이지만, 
+더 걱정이 되는 것은 Nelle이 타이핑 실수를 하는 것이다.
+그래서 루프를 다시 입력하는 대신에 위쪽 화살표를 누른다. 
+위쪽 화살표에 반응해서 컴퓨터 쉘은 한줄에 전체 루프를 다시 보여준다. 
+(스크립트 각 부분이 구분되는데 세미콜론이 사용됨):
+
 
 ~~~ {.bash}
 $ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
 ~~~
 
-Using the left arrow key,
-Nelle backs up and changes the command `echo` to `goostats`:
+왼쪽 화살표 키를 사용해서, 
+Nelle은 `echo`명령어를 `goostats`으로 변경하고 백업한다:
 
 ~~~ {.bash}
 $ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
 ~~~
 
-When she presses enter,
-the shell runs the modified command.
-However, nothing appears to happen --- there is no output.
-After a moment, Nelle realizes that since her script doesn't print anything to the screen any longer,
-she has no idea whether it is running, much less how quickly.
-She kills the job by typing Control-C,
-uses up-arrow to repeat the command,
-and edits it to read:
+엔터키를 누를 때, 쉘은 수정된 명령어를 실행한다. 
+하지만, 어떤 것도 일어나지 않는 것처럼 보인다 --- 출력이 아무것도 없다. 
+잠시뒤에 Nelle은 작성한 스크립트가 화면에 아무것도 출력하지 않아서, 
+실행되고 있는지, 얼마나 빨리 실행되는지에 대한 정보가 없다는 것을 깨닫는다. 
+컨트롤+C(Control-C)를 눌러서 작업을 종료하고,
+ 반복할 명령문을 위쪽 화살표로 선택하고,
+ 편집해서 다음과 같이 작성한다:
 
 ~~~ {.bash}
 $ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
 ~~~
 
-> ## Beginning and End {.callout}
+> ## 시작과 끝 {.callout}
 >
-> We can move to the beginning of a line in the shell by typing `^A`
-> (which means Control-A)
-> and to the end using `^E`.
+> 쉘에 ^A, 콘트롤+A(Control-A)를 타이핑해서 해당 라인 처음으로 가고,
+> ^E를 쳐서 라인의 끝으로 이동한다.
 
-When she runs her program now,
-it produces one line of output every five seconds or so:
+이번에 프로그램을 실행하면, 매 5초간격으로 한줄을 출력한다:
 
 ~~~ {.output}
 NENE01729A.txt
@@ -315,23 +311,22 @@ NENE01736A.txt
 ...
 ~~~
 
-1518 times 5 seconds,
-divided by 60,
-tells her that her script will take about two hours to run.
-As a final check,
-she opens another terminal window,
-goes into `north-pacific-gyre/2012-07-03`,
-and uses `cat stats-NENE01729B.txt`
-to examine one of the output files.
-It looks good,
-so she decides to get some coffee and catch up on her reading.
+1518 곱하기 5초를 60으로 나누면, 
+작성한 스크립트를 실행하는데 약 2시간 정도 소요된다고 볼 수 있다. 
+마지막 점검으로, 또다른 터미널 윈도우를 열어서, 
+`north-pacific-gyre/2012-07-03` 디렉토리로 가서, 
+`cat stats-NENE01729B.txt`을 사용해서 출력파일 중 하나를 면밀히 조사한다. 
+출력결과가 좋아보인다.
+그래서 커피를 마시고 좀더 논문을 읽기로 한다.
 
-> ## Those Who Know History Can Choose to Repeat It {.callout}
-> 
-> Another way to repeat previous work is to use the `history` command to
-> get a list of the last few hundred commands that have been executed, and
-> then to use `!123` (where "123" is replaced by the command number) to
-> repeat one of those commands. For example, if Nelle types this:
+
+
+> ## 역사를 아는 사람은 반복할 수 있다. {.callout}
+>
+> 앞선 작업을 반복하는 또다른 방법은 `history` 명령어를 사용하는 것이다.
+> 실행된 마지막 수백개 명령어 리스트를 얻고 나서, 
+> 이들 명령어 중 하나를 반복실행하기 위해서 `!123`("123"은 명령 숫자로 교체된다.)을 사용한다. 
+> 예를 들어 Nelle이 다음과 같이 타이핑한다:
 > 
 > ~~~
 > $ history | tail -5
@@ -342,18 +337,18 @@ so she decides to get some coffee and catch up on her reading.
 >   460  history
 > ~~~
 > 
-> then she can re-run `goostats` on `NENE01729B.txt` simply by typing
-> `!458`.
+> 그리고 나서, 단순히 `!458`을 타이핑함으로써,
+> `NENE01729B.txt` 파일에 `goostats`을 다시 실행할 수 있다.
 
-> ## Variables in Loops {.challenge}
+> ## 루프에 있는 변수 {.challenge}
 > 
-> Suppose that `ls` initially displays:
+> `ls` 명령어가 초기 다음과 같이 화면에 출력한다고 가정하자:
 > 
 > ~~~
 > fructose.dat    glucose.dat   sucrose.dat
 > ~~~
 > 
-> What is the output of:
+> 다음 스크립트의 출력결과는 무엇인가요:
 > 
 > ~~~
 > for datafile in *.dat
@@ -362,7 +357,7 @@ so she decides to get some coffee and catch up on her reading.
 > done
 > ~~~
 >
-> Now, what is the output of:
+> 이제, 출력결과는 무엇인가:
 >
 > ~~~
 > for datafile in *.dat
@@ -371,11 +366,11 @@ so she decides to get some coffee and catch up on her reading.
 > done
 > ~~~
 >
-> Why do these two loops give you different outputs?
+> 왜 상기 루프 두개가 다른 결과값을 줄까요?
 
-> ## Saving to a File in a Loop - Part One {.challenge}
+> ## 루프에서 파일에 저장하기 - 1부 {.challenge}
 >
-> In the same directory, what is the effect of this loop?
+> 같은 디렉토리에서, 다음 루프의 효과는 무엇인가?
 > 
 > ~~~
 > for sugar in *.dat
@@ -385,22 +380,21 @@ so she decides to get some coffee and catch up on her reading.
 > done
 > ~~~
 > 
-> 1.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and the text from `sucrose.dat` will be saved to a file called `xylose.dat`.
-> 2.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and the text from all three files would be 
->     concatenated and saved to a file called `xylose.dat`.
-> 3.  Prints `fructose.dat`, `glucose.dat`, `sucrose.dat`, and
->     `xylose.dat`, and the text from `sucrose.dat` will be saved to a file called `xylose.dat`.
-> 4.  None of the above.
+> 1. `fructose.dat`, `glucose.dat`, `sucrose.dat`을 출력하고, `sucrose.dat`에서 나온 텍스트를 `xylose.dat`에 저장된다.
+> 2. `fructose.dat`, `glucose.dat`, `sucrose.dat`을 출력하고, 모든 파일 3개에서 나온 텍스트를 합쳐 `xylose.dat`에 저장된다.
+> 3. `fructose.dat`, `glucose.dat`, `sucrose.dat`, `xylose.dat`을 출력하고, `sucrose.dat`에서 나온 텍스트를 `xylose.dat`에 저장된다.
+> 4. 위 어느 것도 아니다.
 
-> ## Saving to a File in a Loop - Part Two {.challenge}
+
+> ## 루프에서 파일에 저장하기 - 2부 {.challenge}
 >
-> In another directory, where `ls` returns:
+> 또다른 디렉토리에서 `ls`를 타이핑하면 다음을 나타난다:
 >
 > ~~~
 > fructose.dat    glucose.dat   sucrose.dat   maltose.txt
 > ~~~
 > 
-> What would be the output of the following loop?
+> 다음 루프 출력결과는 무엇일까?
 >
 > ~~~
 > for datafile in *.dat
@@ -409,18 +403,14 @@ so she decides to get some coffee and catch up on her reading.
 > done
 > ~~~
 >
-> 1.  All of the text from `fructose.dat`, `glucose.dat` and `sucrose.dat` would be 
->     concatenated and saved to a file called `sugar.dat`.
-> 2.  The text from `sucrose.dat` will be saved to a file called `sugar.dat`.
-> 3.  All of the text from `fructose.dat`, `glucose.dat`, `sucrose.dat` and `maltose.txt`
->     would be concatenated and saved to a file called `sugar.dat`.
-> 4.  All of the text from `fructose.dat`, `glucose.dat` and `sucrose.dat` would be printed
->     to the screen and saved to a file called `sugar.dat`
+> 1. `fructose.dat`, `glucose.dat`, `sucrose.dat`에서 모든 텍스트는 합쳐져서 `sugar.dat` 파일에 저장된다.
+> 2. `sucrose.dat`에서 나온 텍스트는`sugar.dat` 파일에 저장된다.
+> 3. `fructose.dat`, `glucose.dat`, `sucrose.dat`, `maltose.txt`에서 모든 텍스트는 합쳐져서 `sugar.dat` 파일에 저장된다.
+> 4. `fructose.dat`, `glucose.dat`, `sucrose.dat`에서 나온 모든 텍스트는 화면에 출력되고, `sugar.dat` 파일에 저장된다.
 
-> ## Doing a Dry Run {.challenge}
+> ## 시운전(Dry Run) {.challenge}
 >
-> Suppose we want to preview the commands the following loop will execute
-> without actually running those commands:
+> 실제로 명령어를 실행하지 않고, 다음 루프가 실행할 명령어를 미리보고자 한다고 가정한다:
 >
 > ~~~ {.bash}
 > for file in *.dat
@@ -429,11 +419,10 @@ so she decides to get some coffee and catch up on her reading.
 > done
 > ~~~
 >
-> What is the difference between the two loops below, and which one would we
-> want to run?
+> 아래 두 루프 사이에 차이는 무엇이고, 어느 것을 시운전으로 실행하고 싶은가?
 >
 > ~~~ {.bash}
-> # Version 1
+> # 버젼 1
 > for file in *.dat
 > do
 >   echo analyze $file > analyzed-$file
@@ -441,16 +430,16 @@ so she decides to get some coffee and catch up on her reading.
 > ~~~
 >
 > ~~~ {.bash}
-> # Version 2
+> # 버젼 2
 > for file in *.dat
 > do
 >   echo "analyze $file > analyzed-$file"
 > done
 > ~~~
 
-> ## Nested Loops and Command-Line Expressions {.challenge}
+> ## 중첩루프와 명령-라인 표현식 {.challenge}
 >
-> The `expr` does simple arithmetic using command-line parameters:
+> `expr` 명령어는 명령-라인 매개변수를 사용하여 간단한 연산작업을 한다:
 > 
 > ~~~
 > $ expr 3 + 5
@@ -459,7 +448,7 @@ so she decides to get some coffee and catch up on her reading.
 > 4
 > ~~~
 > 
-> Given this, what is the output of:
+> 다음이 주어진 상태에서, 다음의 출력값은 무엇인가?
 > 
 > ~~~
 > for left in 2 3
