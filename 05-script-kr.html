@@ -217,11 +217,11 @@ tail $3 $1</code></pre>
 2013-11-07,rabbit,18
 2013-11-07,bear,1</code></pre>
 <p>임의 파일이름을 명령-라인 매개변수로 갖는 <code>species.sh</code> 이름의 쉘 스크립트를 작성하라. <code>cut</code>, <code>sort</code>, <code>uniq</code>를 사용해서 각각의 파일별로 나오는 유일무이한 개체에 대한 목록을 화면에 출력하세요.</p>
-<h2 id="주어진-확장자를-가진-가장-긴-파일을-찾아낸다" class="challenge">주어진 확장자를 가진 가장 긴 파일을 찾아낸다</h2>
+<h3 id="주어진-확장자를-가진-가장-긴-파일을-찾아낸다" class="challenge">주어진 확장자를 가진 가장 긴 파일을 찾아낸다</h3>
 <p>매개변수로 디렉토리 이름과 파일이름 확장자를 갖는 <code>longest.sh</code>이름의 쉘 스크립트를 작성해서, 그 디렉토리에서 해당 확장자를 가지는 파일 중에 가장 긴 줄을 가진 파일이름을 화면에 출력하세요. 예를 들어, 다음은</p>
 <pre><code>$ bash longest.sh /tmp/data pdb</code></pre>
 <p><code>/tmp/data</code> 디렉토리에 <code>.pdb</code> 확장자를 가진 파일 중에 가장 긴 줄을 가진 파일이름을 화면에 출력한다.</p>
-<h2 id="명령어를-실행하기-전에-history에-있는-명령어를-왜-기록해야-하는가" class="challenge">명령어를 실행하기 전에 history에 있는 명령어를 왜 기록해야 하는가?</h2>
+<h3 id="명령어를-실행하기-전에-history에-있는-명령어를-왜-기록해야-하는가" class="challenge">명령어를 실행하기 전에 history에 있는 명령어를 왜 기록해야 하는가?</h3>
 <p>만약 다음 명령어를 실행하면:</p>
 <pre><code>history | tail -5 &gt; recent.sh</code></pre>
 <p>파일의 마지막 명령어는 <code>history</code> 명령어 자체다. 즉, 쉘은 <code>history</code>에 실제로 실행하기 전에 명령어 이력(log)을 추가한다. 사실, 쉘은 <em>항상</em> 명령어를 실행하기 전에 이력(log)에 명령어를 추가한다. 그렇게 하는 이유가 무엇이라고 생각합니까?</p>
