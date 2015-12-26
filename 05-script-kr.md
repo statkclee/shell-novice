@@ -392,7 +392,7 @@ done
 > 그렇게 하는 이유가 무엇이라고 생각합니까?
 > 
 
-> ## Reading comprehension 스크립트 {.challenge}
+> ## 스크립트 독해 능력 {.challenge}
 > 
 > Joel의 `data` 디렉토리에는 `fructose.dat`, `glucose.dat`, `sucrose.dat` 파일 세개가 담겨 있다. 
 > 만약 다음 행을 담고 있는 스크립트로 `bash example.sh *.dat`을 실행할 때, `example.sh` 이름의 스크립트가 무엇을 수행하는지 설명하세요:
