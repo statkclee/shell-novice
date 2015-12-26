@@ -390,6 +390,7 @@ $ ls north-pacific-gyre/
 >
 > `/home/amanda/data/` 가상 파일 시스템 경로에 대해서,
 > Amanda가 홈디렉토리인 `/home/amanda`로 돌아가도록 사용할 수 있는 명령어를 아래에서 선택하시요.
+> 
 >1.  `cd .`
 >2.  `cd /`
 >3.  `cd /home/amanda`
